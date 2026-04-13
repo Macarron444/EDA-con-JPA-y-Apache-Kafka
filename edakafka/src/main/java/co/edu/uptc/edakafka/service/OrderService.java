@@ -1,8 +1,7 @@
-package co.edu.uptc.edakafka.service;
+package co.edu.uptc.edakafka.service; // Asegúrate de que el package sea service
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +10,7 @@ import co.edu.uptc.edakafka.repository.OrderRepository;
 
 @Service
 public class OrderService {
+
     @Autowired
     private OrderRepository orderRepository;
 
@@ -24,5 +24,9 @@ public class OrderService {
 
     public Optional<Order> findById(Long id) {
         return orderRepository.findById(id);
+    }
+
+    public void deleteById(Long id) {
+        orderRepository.deleteById(id);
     }
 }

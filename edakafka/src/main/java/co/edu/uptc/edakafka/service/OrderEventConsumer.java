@@ -18,9 +18,20 @@ public class OrderEventConsumer {
     @KafkaListener(topics = "order_events", groupId = "order_group")
     public void processOrder(String message, @Header(KafkaHeaders.RECEIVED_KEY) String action) {
         Order order = jsonUtils.fromJson(message, Order.class);
-        if ("ADD".equals(action)) {
+        
+        switch(action) {
+        case "ADD":
             orderService.save(order);
             System.out.println("[CONSUMER] Orden guardada en DB: " + order.getOrderid());
+            break;
+        case "EDIT":
+            orderService.save(order); // Save sirve para ambos en JPA
+            System.out.println("[CONSUMER] Orden procesada: " + order.getOrderid());
+            break;
+        case "DELETE":
+            orderService.deleteById(order.getOrderid());
+            System.out.println("[CONSUMER] Orden eliminada: " + order.getOrderid());
+            break;
         }
     }
 }
